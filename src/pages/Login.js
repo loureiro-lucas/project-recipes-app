@@ -1,24 +1,34 @@
 import React, { useState } from 'react';
 
 function Login() {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isButtonDisabled, isButtonEnabled] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-  const handleSubmit = () => {
+  const validateInputs = () => {
+    // Consulta: https://ui.dev/validate-email-address-javascript/
     const MIN_CHARACTER = 6;
     const EMAIL_REGEX = /\S+@\S+\.\S+/;
 
     if (password.length >= MIN_CHARACTER && EMAIL_REGEX.test(email)) {
-      isButtonEnabled(false);
+      setIsButtonDisabled(false);
     } else {
-      isButtonEnabled(true);
+      setIsButtonDisabled(true);
     }
   };
 
+  const handleEmailInput = ({ target: { value } }) => {
+    setEmail(value);
+    validateInputs();
+  };
+
+  const handlePasswordInput = ({ target: { value } }) => {
+    setPassword(value);
+    validateInputs();
+  };
+
   return (
-    <form onSubmit={ handleSubmit }>
+    <form>
       <label htmlFor="email-input">
         Email:
         <input
@@ -27,7 +37,7 @@ function Login() {
           id="email-input"
           data-testid="email-input"
           value={ email }
-          onChange={ ({ target: { value } }) => setEmail(value) }
+          onChange={ handleEmailInput }
         />
       </label>
 
@@ -39,7 +49,7 @@ function Login() {
           id="password-input"
           data-testid="password-input"
           value={ password }
-          onChange={ ({ target: { value } }) => setPassword(value) }
+          onChange={ handlePasswordInput }
         />
       </label>
 
