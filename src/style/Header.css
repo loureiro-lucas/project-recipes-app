@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #C4C4C4;
+}
+
+.pageTitle {
+  margin: 0;
+}
+
+.search-icon-placeholder {
+  width: 30px;
+}
+
+.profile-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

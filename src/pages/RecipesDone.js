@@ -1,9 +1,10 @@
 import React from 'react';
+import Header from '../components/Header';
 
 function RecipesDone() {
   return (
     <div>
-      <p>teste</p>
+      <Header pageTitle="Receitas Feitas" showSearch={ false } />
     </div>
   );
 }
