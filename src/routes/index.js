@@ -1,11 +1,12 @@
 import React from 'react';
 import { Route } from 'react-router';
+import Login from '../pages';
 
 const Routes = () => (
   <>
-    <Route exact path="/" component={ Login } />
+    <Route exact path="/" render={ (props) => <Login { ...props } /> } />
 
-    <Route exact path="/comidas" component={ Foods } />
+    {/* <Route exact path="/comidas" component={ Foods } />
     <Route exact path="/comidas/:id-da-receita" component={  } />
     <Route path="/comidas/:id-da-receita/in-progress" component={  } />
 
@@ -23,8 +24,8 @@ const Routes = () => (
     <Route path="/perfil" component={  } />
 
     <Route path="/receitas-feitas" component={  } />
-    <Route path="/receitas-favoritas" component={  } />
+    <Route path="/receitas-favoritas" component={  } /> */}
   </>
-)
+);
 
 export default Routes;
