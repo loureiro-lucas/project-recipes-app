@@ -5,7 +5,7 @@ import Header from '../components/Header';
 function Profile() {
   return (
     <>
-      <Header pageTitle="Perfil" showSearch={ false } />
+      <Header pageTitle="Perfil" showSearchIcon={ false } />
       <Footer />
     </>
   );

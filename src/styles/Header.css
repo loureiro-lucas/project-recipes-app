@@ -1,0 +1,36 @@
+.header-full-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-top-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 5px 10px;
+  background-color: #C4C4C4;
+}
+
+.profile-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageTitle {
+  font-size: xx-large;
+  margin: 0;
+}
+
+.search-icon-placeholder {
+  width: 30px;
+}
+
+.header-search-bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 5px 10px;
+}

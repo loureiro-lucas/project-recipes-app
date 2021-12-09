@@ -10,7 +10,7 @@ function ExploreRecipes({ location: { pathname } }) {
 
   return (
     <>
-      <Header pageTitle={ pageTitle } showSearch={ false } />
+      <Header pageTitle={ pageTitle } showSearchIcon={ false } />
       <Footer />
     </>
   );

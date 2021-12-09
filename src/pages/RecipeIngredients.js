@@ -5,7 +5,7 @@ import Header from '../components/Header';
 function RecipeIngredients() {
   return (
     <>
-      <Header pageTitle="Explorar Ingredientes" showSearch={ false } />
+      <Header pageTitle="Explorar Ingredientes" showSearchIcon={ false } />
       <Footer />
     </>
   );

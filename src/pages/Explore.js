@@ -5,7 +5,7 @@ import Header from '../components/Header';
 function Explore() {
   return (
     <>
-      <Header pageTitle="Explorar" showSearch={ false } />
+      <Header pageTitle="Explorar" showSearchIcon={ false } />
       <Footer />
     </>
   );

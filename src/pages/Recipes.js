@@ -8,7 +8,7 @@ function Recipes({ location: { pathname } }) {
 
   return (
     <>
-      <Header pageTitle={ pageTitle } showSearch />
+      <Header pageTitle={ pageTitle } showSearchIcon />
       <Footer />
     </>
   );

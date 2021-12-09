@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 function RecipesByArea() {
   return (
     <>
-      <Header pageTitle="Explorar Origem" showSearch />
+      <Header pageTitle="Explorar Origem" showSearchIcon />
       <Footer />
     </>
   );
