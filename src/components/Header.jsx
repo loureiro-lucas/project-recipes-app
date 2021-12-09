@@ -39,6 +39,7 @@ const Header = ({ pageTitle, showSearchIcon }) => {
           <label htmlFor="search-input">
             <input
               type="text"
+              name="search-input"
               id="search-input"
               placeholder="Search recipe"
               data-testid="search-input"
