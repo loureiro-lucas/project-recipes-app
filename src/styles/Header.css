@@ -1,21 +1,21 @@
 .header-full-container {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .header-top-container {
+  background-color: #c4c4c4;
   display: flex;
   justify-content: space-between;
-  width: 100%;
   padding: 5px 10px;
-  background-color: #C4C4C4;
+  width: 100%;
 }
 
 .profile-link {
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .pageTitle {
@@ -28,9 +28,9 @@
 }
 
 .header-search-bar-container {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
   padding: 5px 10px;
+  width: 100%;
 }
