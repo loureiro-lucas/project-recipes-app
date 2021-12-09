@@ -1,9 +1,13 @@
 import React from 'react';
+import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function RecipesByArea() {
   return (
-    <Footer />
+    <>
+      <Header pageTitle="Explorar Origem" showSearchIcon />
+      <Footer />
+    </>
   );
 }
 
