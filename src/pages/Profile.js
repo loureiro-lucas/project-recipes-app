@@ -4,17 +4,16 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Profile() {
-  // const getUserEmail = () => {
-  //   const { email } = JSON.parse(localStorage.getItem('user'));
-  // };
+  const { email } = JSON.parse(localStorage.getItem('user'));
+  console.log(email);
 
   return (
     <>
       <Header pageTitle="Perfil" showSearchIcon={ false } />
 
-      <h1 data-testid="profile-email">
-        { }
-      </h1>
+      <h3 data-testid="profile-email">
+        { email }
+      </h3>
 
       <Link to="/receitas-feitas">
         <button
