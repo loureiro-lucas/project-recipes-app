@@ -35,7 +35,7 @@ const Header = ({ pageTitle, showSearchIcon }) => {
       </div>
 
       { isSearchBarShown && (
-        <div className="header-search-bar-container">
+        <form className="header-search-bar-container">
           <label htmlFor="search-input">
             <input
               type="text"
@@ -45,7 +45,40 @@ const Header = ({ pageTitle, showSearchIcon }) => {
               data-testid="search-input"
             />
           </label>
-        </div>
+          <div className="search-by-container">
+            <label htmlFor="ingredient">
+              <input
+                type="radio"
+                id="ingredient"
+                name="search-by"
+                value="ingredient"
+                data-testid="ingredient-search-radio"
+              />
+              Ingrediente
+            </label>
+            <label htmlFor="name">
+              <input
+                type="radio"
+                id="name"
+                name="search-by"
+                value="name"
+                data-testid="name-search-radio"
+              />
+              Nome
+            </label>
+            <label htmlFor="first-letter">
+              <input
+                type="radio"
+                id="first-letter"
+                name="search-by"
+                value="first-letter"
+                data-testid="first-letter-search-radio"
+              />
+              Primeira Letra
+            </label>
+          </div>
+          <button type="submit" data-testid="exec-search-btn">Buscar</button>
+        </form>
       ) }
     </header>
   );
