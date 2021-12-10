@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import RecipesContext from '../context/RecipesContext';
 import '../styles/Recipes.css';
 
-function Recipes({ location: { pathname }, history }) {
+function Recipes({ location: { pathname } }) {
   const {
     recipes,
     getRecipesFromAPI,
@@ -21,12 +21,9 @@ function Recipes({ location: { pathname }, history }) {
         'Sinto muito, não encontramos nenhuma receita para esses filtros.',
       );
     }
-    if (recipes.length === 1) {
-      history.push(
-        `${pathname}/${pathname === '/comidas' ? recipes[0].idMeal : recipes[0].idDrink}`,
-      );
-    }
   }, [recipes]);
+
+  console.log(recipes);
 
   return (
     <>

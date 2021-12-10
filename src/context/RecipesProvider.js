@@ -15,40 +15,34 @@ const RecipesProvider = ({ children }) => {
       .then((response) => setRecipes(response));
   };
 
-  const filterRecipes = (pathname, searchValue, searchBy) => {
+  const filters = (pathname, searchValue, searchBy) => {
     switch (searchBy) {
     case 'name':
       if (pathname === '/comidas') {
-        fetchRecipes(FOODS_URL + BY_NAME + searchValue)
-          .then((response) => setRecipes(response));
-      } else {
-        fetchRecipes(DRINKS_URL + BY_NAME + searchValue)
-          .then((response) => setRecipes(response));
-      }
-      break;
+        return fetchRecipes(FOODS_URL + BY_NAME + searchValue);
+      } return fetchRecipes(DRINKS_URL + BY_NAME + searchValue);
+
     case 'ingredient':
       if (pathname === '/comidas') {
-        fetchRecipes(FOODS_URL + BY_INGREDIENTS + searchValue)
-          .then((response) => setRecipes(response));
-      } else {
-        fetchRecipes(DRINKS_URL + BY_INGREDIENTS + searchValue)
-          .then((response) => setRecipes(response));
-      }
-      break;
+        return fetchRecipes(FOODS_URL + BY_INGREDIENTS + searchValue);
+      } return fetchRecipes(DRINKS_URL + BY_INGREDIENTS + searchValue);
+
     case 'first-letter':
       if (pathname === '/comidas') {
-        fetchRecipes(FOODS_URL + BY_FIRST_LETTER + searchValue)
-          .then((response) => setRecipes(response));
-      } else {
-        fetchRecipes(DRINKS_URL + BY_FIRST_LETTER + searchValue)
-          .then((response) => setRecipes(response));
-      }
-      break;
+        return fetchRecipes(FOODS_URL + BY_FIRST_LETTER + searchValue);
+      } return fetchRecipes(DRINKS_URL + BY_FIRST_LETTER + searchValue);
+
     default:
-      fetchRecipes(FOODS_URL)
-        .then((response) => setRecipes(response));
-      break;
+      return fetchRecipes(FOODS_URL);
     }
+  };
+
+  const filterRecipes = (pathname, searchValue, searchBy) => {
+    return filters(pathname, searchValue, searchBy)
+      .then((response) => {
+        setRecipes(response);
+        return response;
+      });
   };
 
   const context = {

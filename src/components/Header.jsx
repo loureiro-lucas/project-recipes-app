@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipesContext from '../context/RecipesContext';
 import profileIcon from '../images/profileIcon.svg';
@@ -12,6 +12,8 @@ const Header = ({ pathname, showSearchIcon, pageTitle }) => {
   const [searchBy, setSearchBy] = useState('name');
 
   const { filterRecipes } = useContext(RecipesContext);
+
+  const history = useHistory();
 
   const handleSearchInput = ({ target: { value } }) => {
     setSearchValue(value);
@@ -26,7 +28,15 @@ const Header = ({ pathname, showSearchIcon, pageTitle }) => {
     if (searchBy === 'first-letter' && searchValue.length > 1) {
       global.alert('Sua busca deve conter somente 1 (um) caracter');
     } else {
-      filterRecipes(pathname, searchValue, searchBy);
+      filterRecipes(pathname, searchValue, searchBy)
+        .then((response) => {
+          if (response.length === 1) {
+            history.push(
+              `${pathname}/${pathname === '/comidas'
+                ? response[0].idMeal : response[0].idDrink}`,
+            );
+          }
+        });
     }
   };
 
