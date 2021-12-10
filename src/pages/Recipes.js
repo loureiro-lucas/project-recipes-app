@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import RecipesContext from '../context/RecipesContext';
 import '../styles/Recipes.css';
 
-function Recipes({ location: { pathname } }) {
+function Recipes({ location: { pathname }, history }) {
   const {
     recipes,
     getRecipesFromAPI,
@@ -15,18 +15,42 @@ function Recipes({ location: { pathname } }) {
     getRecipesFromAPI(pathname);
   }, []);
 
+  useEffect(() => {
+    if (recipes === undefined) {
+      global.alert(
+        'Sinto muito, não encontramos nenhuma receita para esses filtros.',
+      );
+    }
+    if (recipes.length === 1) {
+      history.push(
+        `${pathname}/${pathname === '/comidas' ? recipes[0].idMeal : recipes[0].idDrink}`,
+      );
+    }
+  }, [recipes]);
+
   return (
     <>
-      <Header pathname={ pathname } showSearchIcon />
+      <Header
+        pathname={ pathname }
+        pageTitle={ pathname === '/comidas' ? 'Comidas' : 'Bebidas' }
+        showSearchIcon
+      />
       <div className="recipes-container">
-        { recipes.map((recipe, index) => (
-          <div key={ index } className="recipe-card-container">
+        { recipes && recipes.map((recipe, index) => (
+          <div
+            key={ index }
+            className="recipe-card-container"
+            data-testid={ `${index}-recipe-card` }
+          >
             <img
               src={ recipe.strMealThumb || recipe.strDrinkThumb }
               alt="recipe"
               className="recipe-image"
+              data-testid={ `${index}-card-img` }
             />
-            <p>{ recipe.strMeal || recipe.strDrink }</p>
+            <p data-testid={ `${index}-card-name` }>
+              { recipe.strMeal || recipe.strDrink }
+            </p>
           </div>
         )) }
       </div>
@@ -38,6 +62,9 @@ function Recipes({ location: { pathname } }) {
 Recipes.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
   }).isRequired,
 };
 

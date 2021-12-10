@@ -7,7 +7,11 @@ const Routes = () => (
     <Route exact path="/" render={ (props) => <pages.Login { ...props } /> } />
 
     <Route exact path="/comidas" render={ (props) => <pages.Recipes { ...props } /> } />
-    <Route exact path="/comidas/:id-da-receita" component={ pages.RecipeDetails } />
+    <Route
+      exact
+      path="/comidas/:id-da-receita"
+      component={ pages.RecipeDetails }
+    />
     <Route
       path="/comidas/:id-da-receita/in-progress"
       component={ pages.RecipeInProgress }
@@ -18,7 +22,11 @@ const Routes = () => (
       path="/bebidas"
       component={ (props) => <pages.Recipes { ...props } /> }
     />
-    <Route exact path="/bebidas/:id-da-receita" component={ pages.RecipeDetails } />
+    <Route
+      exact
+      path="/bebidas/:id-da-receita"
+      component={ pages.RecipeDetails }
+    />
     <Route
       path="/bebidas/:id-da-receita/in-progress"
       component={ pages.RecipeInProgress }

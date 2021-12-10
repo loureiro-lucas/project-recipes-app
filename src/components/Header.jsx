@@ -6,14 +6,12 @@ import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import '../styles/Header.css';
 
-const Header = ({ pathname, showSearchIcon }) => {
+const Header = ({ pathname, showSearchIcon, pageTitle }) => {
   const [isSearchBarShown, setIsSearchBarShown] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [searchBy, setSearchBy] = useState('name');
 
   const { filterRecipes } = useContext(RecipesContext);
-
-  const pageTitle = (pathname === '/comidas') ? 'Comidas' : 'Bebidas';
 
   const handleSearchInput = ({ target: { value } }) => {
     setSearchValue(value);
@@ -25,7 +23,11 @@ const Header = ({ pathname, showSearchIcon }) => {
 
   const handleSubmitSearch = (event) => {
     event.preventDefault();
-    filterRecipes(pathname, searchValue, searchBy);
+    if (searchBy === 'first-letter' && searchValue.length > 1) {
+      global.alert('Sua busca deve conter somente 1 (um) caracter');
+    } else {
+      filterRecipes(pathname, searchValue, searchBy);
+    }
   };
 
   return (
@@ -78,7 +80,6 @@ const Header = ({ pathname, showSearchIcon }) => {
                 id="ingredient"
                 name="search-by"
                 value="ingredient"
-                checked={ searchBy === 'ingredient' }
                 data-testid="ingredient-search-radio"
               />
               Ingrediente
@@ -89,7 +90,7 @@ const Header = ({ pathname, showSearchIcon }) => {
                 id="name"
                 name="search-by"
                 value="name"
-                checked={ searchBy === 'name' }
+                defaultChecked
                 data-testid="name-search-radio"
               />
               Nome
@@ -100,7 +101,6 @@ const Header = ({ pathname, showSearchIcon }) => {
                 id="first-letter"
                 name="search-by"
                 value="first-letter"
-                checked={ searchBy === 'first-letter' }
                 data-testid="first-letter-search-radio"
               />
               Primeira Letra
@@ -115,6 +115,7 @@ const Header = ({ pathname, showSearchIcon }) => {
 
 Header.propTypes = {
   pathname: PropTypes.string.isRequired,
+  pageTitle: PropTypes.string.isRequired,
   showSearchIcon: PropTypes.bool.isRequired,
 };
 
