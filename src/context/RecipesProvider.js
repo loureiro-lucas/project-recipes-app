@@ -37,13 +37,13 @@ const RecipesProvider = ({ children }) => {
     }
   };
 
-  const filterRecipes = (pathname, searchValue, searchBy) => {
-    return filters(pathname, searchValue, searchBy)
+  const filterRecipes = (pathname, searchValue, searchBy) => (
+    filters(pathname, searchValue, searchBy)
       .then((response) => {
         setRecipes(response);
         return response;
-      });
-  };
+      })
+  );
 
   const context = {
     recipes,
