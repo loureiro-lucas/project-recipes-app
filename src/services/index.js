@@ -1,5 +1,8 @@
-const FOODS_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-const DRINKS_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+const FOODS_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?';
+const DRINKS_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?';
+const BY_NAME = 's=';
+const BY_INGREDIENTS = 'i=';
+const BY_FIRST_LETTER = 'f=';
 
 const fetchRecipe = (recipeType) => {
   const URL = recipeType === '/comidas' ? FOODS_URL : DRINKS_URL;
