@@ -1,19 +1,19 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipesContext from '../context/RecipesContext';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import '../styles/Header.css';
 
-const Header = ({ pathname, showSearchIcon }) => {
+const Header = ({ pathname, showSearchIcon, pageTitle }) => {
   const [isSearchBarShown, setIsSearchBarShown] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [searchBy, setSearchBy] = useState('name');
 
   const { filterRecipes } = useContext(RecipesContext);
 
-  const pageTitle = (pathname === '/comidas') ? 'Comidas' : 'Bebidas';
+  const history = useHistory();
 
   const handleSearchInput = ({ target: { value } }) => {
     setSearchValue(value);
@@ -25,7 +25,19 @@ const Header = ({ pathname, showSearchIcon }) => {
 
   const handleSubmitSearch = (event) => {
     event.preventDefault();
-    filterRecipes(pathname, searchValue, searchBy);
+    if (searchBy === 'first-letter' && searchValue.length > 1) {
+      global.alert('Sua busca deve conter somente 1 (um) caracter');
+    } else {
+      filterRecipes(pathname, searchValue, searchBy)
+        .then((response) => {
+          if (response.length === 1) {
+            history.push(
+              `${pathname}/${pathname === '/comidas'
+                ? response[0].idMeal : response[0].idDrink}`,
+            );
+          }
+        });
+    }
   };
 
   return (
@@ -78,7 +90,6 @@ const Header = ({ pathname, showSearchIcon }) => {
                 id="ingredient"
                 name="search-by"
                 value="ingredient"
-                checked={ searchBy === 'ingredient' }
                 data-testid="ingredient-search-radio"
               />
               Ingrediente
@@ -89,7 +100,7 @@ const Header = ({ pathname, showSearchIcon }) => {
                 id="name"
                 name="search-by"
                 value="name"
-                checked={ searchBy === 'name' }
+                defaultChecked
                 data-testid="name-search-radio"
               />
               Nome
@@ -100,7 +111,6 @@ const Header = ({ pathname, showSearchIcon }) => {
                 id="first-letter"
                 name="search-by"
                 value="first-letter"
-                checked={ searchBy === 'first-letter' }
                 data-testid="first-letter-search-radio"
               />
               Primeira Letra
@@ -115,6 +125,7 @@ const Header = ({ pathname, showSearchIcon }) => {
 
 Header.propTypes = {
   pathname: PropTypes.string.isRequired,
+  pageTitle: PropTypes.string.isRequired,
   showSearchIcon: PropTypes.bool.isRequired,
 };
 
