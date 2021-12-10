@@ -28,9 +28,18 @@
 }
 
 .header-search-bar-container {
-  align-items: center;
+  align-items: stretch;
   display: flex;
   flex-direction: column;
   padding: 5px 10px;
   width: 100%;
+}
+
+#search-input {
+  width: 100%;
+}
+
+.search-by-container {
+  display: flex;
+  justify-content: space-between;
 }
