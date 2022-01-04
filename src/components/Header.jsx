@@ -76,6 +76,7 @@ const Header = ({ pathname, showSearchIcon, pageTitle }) => {
             <input
               type="text"
               name="search-input"
+              className="search-input"
               id="search-input"
               value={ searchValue }
               placeholder="Search recipe"
