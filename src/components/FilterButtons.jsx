@@ -1,30 +1,43 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import RecipesContext from '../context/RecipesContext';
 
-const FilterButtons = ({  pathname  }) => {
-  const { categories,
-    recipes,
-    getRecipesFromAPI } = useContext(RecipesContext);
+const FilterButtons = ({ pathname }) => {
+  const [categorySelected, setCategorySelected] = useState('');
 
-  const handleClick = ({ target: { value } }) => {
+  const {
+    categories,
+    getRecipesFromAPI,
+    filterRecipes,
+  } = useContext(RecipesContext);
+
+  const handleClickCategories = ({ target: { value } }) => {
+    setCategorySelected(value);
     if (value === 'all') {
       getRecipesFromAPI(pathname);
+    } else if (categorySelected === value) {
+      setCategorySelected('all');
+      getRecipesFromAPI(pathname);
     } else {
-      // setRecipes(recipes.filter(({ strCategory }) => strCategory === value));
+      filterRecipes(pathname, value, 'category');
     }
   };
 
-  // console.log(categories);
   return (
     <>
-      <button type="button" value="all" onClick={ handleClick }>
+      <button
+        type="button"
+        value="all"
+        onClick={ handleClickCategories }
+        data-testid="All-category-filter"
+      >
         All
       </button>
       {
         categories.map((category) => (
           <button
             key={ category }
-            onClick={ handleClick }
+            onClick={ handleClickCategories }
             type="button"
             value={ category }
             data-testid={ `${category}-category-filter` }
@@ -36,6 +49,9 @@ const FilterButtons = ({  pathname  }) => {
     </>
   );
 };
-// data-testid={ `${categoryName}-category-filter` }
+
+FilterButtons.propTypes = {
+  pathname: PropTypes.string.isRequired,
+};
 
 export default FilterButtons;
