@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from '../context/RecipesContext';
 
 const FilterButtons = ({ pathname }) => {
+  const [categorySelected, setCategorySelected] = useState('');
+
   const {
     categories,
     getRecipesFromAPI,
@@ -10,7 +12,11 @@ const FilterButtons = ({ pathname }) => {
   } = useContext(RecipesContext);
 
   const handleClickCategories = ({ target: { value } }) => {
+    setCategorySelected(value);
     if (value === 'all') {
+      getRecipesFromAPI(pathname);
+    } else if (categorySelected === value) {
+      setCategorySelected('all');
       getRecipesFromAPI(pathname);
     } else {
       filterRecipes(pathname, value, 'category');
@@ -19,7 +25,12 @@ const FilterButtons = ({ pathname }) => {
 
   return (
     <>
-      <button type="button" value="all" onClick={ handleClickCategories }>
+      <button
+        type="button"
+        value="all"
+        onClick={ handleClickCategories }
+        data-testid="All-category-filter"
+      >
         All
       </button>
       {
