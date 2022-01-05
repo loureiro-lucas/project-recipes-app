@@ -37,7 +37,7 @@ function Recipes({ location: { pathname } }) {
         showSearchIcon
       />
       { !isSearchBarShown && (
-        <FilterButtons />
+        <FilterButtons pathname={ pathname } />
       )}
       <div className="recipes-container">
         { recipes && recipes.map((recipe, index) => (

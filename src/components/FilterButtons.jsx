@@ -1,18 +1,35 @@
 import React, { useContext } from 'react';
 import RecipesContext from '../context/RecipesContext';
 
-const FilterButtons = () => {
-  const { categories } = useContext(RecipesContext);
+const FilterButtons = ({  pathname  }) => {
+  const { categories,
+    recipes,
+    getRecipesFromAPI } = useContext(RecipesContext);
+
+  const handleClick = ({ target: { value } }) => {
+    if (value === 'all') {
+      getRecipesFromAPI(pathname);
+    } else {
+      // setRecipes(recipes.filter(({ strCategory }) => strCategory === value));
+    }
+  };
+
   // console.log(categories);
   return (
     <>
-      <button type="button">
+      <button type="button" value="all" onClick={ handleClick }>
         All
       </button>
       {
-        categories.map((categorie) => (
-          <button key={ categorie } type="button">
-            {categorie}
+        categories.map((category) => (
+          <button
+            key={ category }
+            onClick={ handleClick }
+            type="button"
+            value={ category }
+            data-testid={ `${category}-category-filter` }
+          >
+            {category}
           </button>
         ))
       }
