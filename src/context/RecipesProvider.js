@@ -1,50 +1,79 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
-import fetchRecipes from '../services';
+import fetchRecipes, { FOODS_URL,
+  DRINKS_URL,
+  BY_NAME,
+  BY_INGREDIENTS,
+  BY_FIRST_LETTER,
+  BY_CATEGORIES,
+  fetchCategories,
+  MEALS_CATEGORIES_URL,
+  DRINKS_CATEGORIES_URL } from '../services';
 
 const RecipesProvider = ({ children }) => {
   const [recipes, setRecipes] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  const [isSearchBarShown, setIsSearchBarShown] = useState(false);
 
   const getRecipesFromAPI = (pathname) => {
-    fetchRecipes(pathname)
+    fetchRecipes(`${pathname === '/comidas' ? FOODS_URL : DRINKS_URL}${BY_NAME}`)
       .then((response) => setRecipes(response));
   };
 
-  const filterByPathname =  () => {
-    
-  }
+  const getCategoriesFromAPI = (pathname) => {
+    fetchCategories(`${pathname === '/comidas'
+      ? MEALS_CATEGORIES_URL
+      : DRINKS_CATEGORIES_URL}`)
+      .then((response) => setCategories(response));
+  };
 
-  const filterRecipes = (pathname, searchValue, searchBy) => {
+  const filters = (pathname, searchValue, searchBy) => {
     switch (searchBy) {
     case 'name':
       if (pathname === '/comidas') {
+        return fetchRecipes(FOODS_URL + BY_NAME + searchValue);
+      } return fetchRecipes(DRINKS_URL + BY_NAME + searchValue);
 
-      } else {
-
-      }
     case 'ingredient':
       if (pathname === '/comidas') {
+        return fetchRecipes(FOODS_URL + BY_INGREDIENTS + searchValue);
+      } return fetchRecipes(DRINKS_URL + BY_INGREDIENTS + searchValue);
 
-      } else {
-
-      }
     case 'first-letter':
       if (pathname === '/comidas') {
+        return fetchRecipes(FOODS_URL + BY_FIRST_LETTER + searchValue);
+      } return fetchRecipes(DRINKS_URL + BY_FIRST_LETTER + searchValue);
 
-      } else {
+    case 'category':
+      if (pathname === '/comidas') {
+        return fetchRecipes(FOODS_URL + BY_CATEGORIES + searchValue);
+      } return fetchRecipes(DRINKS_URL + BY_CATEGORIES + searchValue);
 
-      }
     default:
-
+      return fetchRecipes(FOODS_URL);
     }
   };
+
+  const filterRecipes = (pathname, searchValue, searchBy) => (
+    filters(pathname, searchValue, searchBy)
+      .then((response) => {
+        setRecipes(response);
+        return response;
+      })
+  );
 
   const context = {
     recipes,
     getRecipesFromAPI,
     filterRecipes,
+    isSearchBarShown,
+    setIsSearchBarShown,
+    categories,
+    getCategoriesFromAPI,
   };
+
   return (
     <RecipesContext.Provider value={ context }>
       { children }
