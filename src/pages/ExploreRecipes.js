@@ -12,7 +12,7 @@ function ExploreRecipes({ location: { pathname } }) {
   function renderExploreFoods() {
     return (
       <>
-        <Link to="explorar/comidas/ingredientes">
+        <Link to="/explorar/comidas/ingredientes">
           <button
             type="button"
             data-testid="explore-by-ingredient"
@@ -21,7 +21,7 @@ function ExploreRecipes({ location: { pathname } }) {
           </button>
         </Link>
 
-        <Link to="explorar/comidas/area">
+        <Link to="/explorar/comidas/area">
           <button
             type="button"
             data-testid="explore-by-area"
@@ -43,7 +43,7 @@ function ExploreRecipes({ location: { pathname } }) {
   function renderExploreDrinks() {
     return (
       <>
-        <Link to="explorar/bebidas/ingredientes">
+        <Link to="/explorar/bebidas/ingredientes">
           <button
             type="button"
             data-testid="explore-by-ingredient"
@@ -52,14 +52,13 @@ function ExploreRecipes({ location: { pathname } }) {
           </button>
         </Link>
 
-        <Link to="explorar/bebidas/area">
-          <button
-            type="button"
-            data-testid="explore-by-area"
-          >
-            Me Surpreenda!
-          </button>
-        </Link>
+        <button
+          type="button"
+          data-testid="explore-surprise"
+        >
+          Me Surpreenda!
+        </button>
+
       </>
     );
   }
