@@ -5,14 +5,25 @@ import fetchRecipes, { FOODS_URL,
   DRINKS_URL,
   BY_NAME,
   BY_INGREDIENTS,
-  BY_FIRST_LETTER } from '../services';
+  BY_FIRST_LETTER,
+  fetchCategories,
+  MEALS_CATEGORIES,
+  DRINKS_CATEGORIES } from '../services';
 
 const RecipesProvider = ({ children }) => {
   const [recipes, setRecipes] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  const [isSearchBarShown, setIsSearchBarShown] = useState(false);
 
   const getRecipesFromAPI = (pathname) => {
     fetchRecipes(`${pathname === '/comidas' ? FOODS_URL : DRINKS_URL}${BY_NAME}`)
       .then((response) => setRecipes(response));
+  };
+
+  const getCategoriesFromAPI = (pathname) => {
+    fetchCategories(`${pathname === '/comidas' ? MEALS_CATEGORIES : DRINKS_CATEGORIES}`)
+      .then((response) => setCategories(response));
   };
 
   const filters = (pathname, searchValue, searchBy) => {
@@ -49,6 +60,10 @@ const RecipesProvider = ({ children }) => {
     recipes,
     getRecipesFromAPI,
     filterRecipes,
+    isSearchBarShown,
+    setIsSearchBarShown,
+    categories,
+    getCategoriesFromAPI,
   };
 
   return (

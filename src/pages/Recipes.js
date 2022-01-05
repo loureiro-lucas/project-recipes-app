@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import FilterButtons from '../components/FilterButtons';
 import RecipesContext from '../context/RecipesContext';
 import '../styles/Recipes.css';
 
@@ -9,10 +10,13 @@ function Recipes({ location: { pathname } }) {
   const {
     recipes,
     getRecipesFromAPI,
+    isSearchBarShown,
+    getCategoriesFromAPI,
   } = useContext(RecipesContext);
 
   useEffect(() => {
     getRecipesFromAPI(pathname);
+    getCategoriesFromAPI(pathname);
   }, []);
 
   useEffect(() => {
@@ -32,6 +36,9 @@ function Recipes({ location: { pathname } }) {
         pageTitle={ pathname === '/comidas' ? 'Comidas' : 'Bebidas' }
         showSearchIcon
       />
+      { !isSearchBarShown && (
+        <FilterButtons />
+      )}
       <div className="recipes-container">
         { recipes && recipes.map((recipe, index) => (
           <div
