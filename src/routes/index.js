@@ -7,11 +7,11 @@ const Routes = () => (
     <Route exact path="/" render={ (props) => <pages.Login { ...props } /> } />
 
     <Route exact path="/comidas" render={ (props) => <pages.Recipes { ...props } /> } />
-    {/* <Route
+    <Route
       exact
-      path="/comidas/:id-da-receita"
+      path="/comidas/:id"
       component={ pages.RecipeDetails }
-    /> */}
+    />
     <Route
       path="/comidas/:id-da-receita/in-progress"
       component={ pages.RecipeInProgress }

@@ -7,6 +7,8 @@ import FilterButtons from '../components/FilterButtons';
 import RecipesContext from '../context/RecipesContext';
 import '../styles/Recipes.css';
 
+export const FOODS_URL = 'https://www.themealdb.com/api/json/v1/1/';
+
 function Recipes({ location: { pathname } }) {
   const {
     recipes,
@@ -27,6 +29,9 @@ function Recipes({ location: { pathname } }) {
       );
     }
   }, [recipes]);
+
+  console.log(recipes);
+  console.log(FOODS_URL.split('/'));
 
   return (
     <>
