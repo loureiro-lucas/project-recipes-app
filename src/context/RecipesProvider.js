@@ -11,11 +11,14 @@ import fetchRecipes, { FOODS_URL,
   MEALS_CATEGORIES_URL,
   DRINKS_CATEGORIES_URL,
   fetchDetails,
-  RECIPE_DETAILS } from '../services';
+  RECIPE_DETAILS,
+  GET_RANDOM } from '../services';
 
 const RecipesProvider = ({ children }) => {
   const [recipes, setRecipes] = useState([]);
   const [categories, setCategories] = useState([]);
+
+  const [randomMealOrDrink, setRandomMealOrDrink] = useState([{}]);
 
   const [isSearchBarShown, setIsSearchBarShown] = useState(false);
   const [recipeDetails, setRecipeDetails] = useState([]);
@@ -73,6 +76,11 @@ const RecipesProvider = ({ children }) => {
       })
   );
 
+  const getRandom = (pathname) => {
+    fetchRecipes(`${pathname === '/comidas' ? FOODS_URL : DRINKS_URL}${GET_RANDOM}`)
+      .then((response) => setRandomMealOrDrink(response));
+  };
+
   const context = {
     recipes,
     getRecipesFromAPI,
@@ -81,8 +89,14 @@ const RecipesProvider = ({ children }) => {
     setIsSearchBarShown,
     categories,
     getCategoriesFromAPI,
+<<<<<<< HEAD
     recipeDetails,
     getDetails,
+=======
+    randomMealOrDrink,
+    setRandomMealOrDrink,
+    getRandom,
+>>>>>>> e18de0b903fc9b5496957ef20efabfcdb385a958
   };
 
   return (
