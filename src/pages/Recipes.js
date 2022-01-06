@@ -7,7 +7,7 @@ import FilterButtons from '../components/FilterButtons';
 import RecipesContext from '../context/RecipesContext';
 import '../styles/Recipes.css';
 
-function Recipes({ history, location: { pathname } }) {
+function Recipes({ location: { pathname } }) {
   const {
     recipes,
     getRecipesFromAPI,
@@ -27,8 +27,6 @@ function Recipes({ history, location: { pathname } }) {
       );
     }
   }, [recipes]);
-
-  console.log(history);
 
   return (
     <>
