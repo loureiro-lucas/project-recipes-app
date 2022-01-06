@@ -89,14 +89,11 @@ const RecipesProvider = ({ children }) => {
     setIsSearchBarShown,
     categories,
     getCategoriesFromAPI,
-<<<<<<< HEAD
     recipeDetails,
     getDetails,
-=======
     randomMealOrDrink,
     setRandomMealOrDrink,
     getRandom,
->>>>>>> e18de0b903fc9b5496957ef20efabfcdb385a958
   };
 
   return (
