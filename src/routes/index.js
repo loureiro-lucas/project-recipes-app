@@ -44,7 +44,7 @@ const Routes = () => (
     <Route path="/receitas-feitas" component={ pages.RecipesDone } />
     <Route path="/receitas-favoritas" component={ pages.Favorites } />
 
-    {/* <Route exact path="*" component={ pages.NotFound } /> */}
+    <Route exact path="/explorar/bebidas/area" component={ pages.NotFound } />
   </>
 );
 
