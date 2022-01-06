@@ -6,9 +6,10 @@ import fetchRecipes, { FOODS_URL,
   BY_NAME,
   BY_INGREDIENTS,
   BY_FIRST_LETTER,
+  BY_CATEGORIES,
   fetchCategories,
-  MEALS_CATEGORIES,
-  DRINKS_CATEGORIES } from '../services';
+  MEALS_CATEGORIES_URL,
+  DRINKS_CATEGORIES_URL } from '../services';
 
 const RecipesProvider = ({ children }) => {
   const [recipes, setRecipes] = useState([]);
@@ -22,7 +23,9 @@ const RecipesProvider = ({ children }) => {
   };
 
   const getCategoriesFromAPI = (pathname) => {
-    fetchCategories(`${pathname === '/comidas' ? MEALS_CATEGORIES : DRINKS_CATEGORIES}`)
+    fetchCategories(`${pathname === '/comidas'
+      ? MEALS_CATEGORIES_URL
+      : DRINKS_CATEGORIES_URL}`)
       .then((response) => setCategories(response));
   };
 
@@ -42,6 +45,11 @@ const RecipesProvider = ({ children }) => {
       if (pathname === '/comidas') {
         return fetchRecipes(FOODS_URL + BY_FIRST_LETTER + searchValue);
       } return fetchRecipes(DRINKS_URL + BY_FIRST_LETTER + searchValue);
+
+    case 'category':
+      if (pathname === '/comidas') {
+        return fetchRecipes(FOODS_URL + BY_CATEGORIES + searchValue);
+      } return fetchRecipes(DRINKS_URL + BY_CATEGORIES + searchValue);
 
     default:
       return fetchRecipes(FOODS_URL);

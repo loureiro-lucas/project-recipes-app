@@ -9,6 +9,7 @@ import RecipeIngredients from './RecipeIngredients';
 import RecipeInProgress from './RecipeInProgress';
 import RecipesByArea from './RecipesByArea';
 import RecipesDone from './RecipesDone';
+import NotFound from './NotFound';
 
 export {
   Explore,
@@ -22,4 +23,5 @@ export {
   RecipeInProgress,
   RecipesByArea,
   RecipesDone,
+  NotFound,
 };

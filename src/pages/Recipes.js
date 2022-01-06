@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import FilterButtons from '../components/FilterButtons';
@@ -41,21 +42,26 @@ function Recipes({ history, location: { pathname } }) {
       )}
       <div className="recipes-container">
         { recipes && recipes.map((recipe, index) => (
-          <div
+          <Link
+            to={ `${pathname}/${pathname === '/comidas'
+              ? recipe.idMeal : recipe.idDrink}` }
             key={ index }
-            className="recipe-card-container"
-            data-testid={ `${index}-recipe-card` }
           >
-            <img
-              src={ recipe.strMealThumb || recipe.strDrinkThumb }
-              alt="recipe"
-              className="recipe-image"
-              data-testid={ `${index}-card-img` }
-            />
-            <p data-testid={ `${index}-card-name` }>
-              { recipe.strMeal || recipe.strDrink }
-            </p>
-          </div>
+            <div
+              className="recipe-card-container"
+              data-testid={ `${index}-recipe-card` }
+            >
+              <img
+                src={ recipe.strMealThumb || recipe.strDrinkThumb }
+                alt="recipe"
+                className="recipe-image"
+                data-testid={ `${index}-card-img` }
+              />
+              <p data-testid={ `${index}-card-name` }>
+                { recipe.strMeal || recipe.strDrink }
+              </p>
+            </div>
+          </Link>
         )) }
       </div>
       <Footer />
