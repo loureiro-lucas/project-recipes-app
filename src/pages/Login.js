@@ -72,7 +72,6 @@ function Login({ history }) {
       </label>
 
       <button
-        // redirect to /explorar
         type="submit"
         data-testid="login-submit-btn"
         disabled={ !(isEmailValid && isPasswordValid) }

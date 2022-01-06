@@ -6,6 +6,7 @@ export const BY_NAME = 'search.php?s=';
 export const BY_INGREDIENTS = 'filter.php?i=';
 export const BY_FIRST_LETTER = 'search.php?f=';
 export const BY_CATEGORIES = 'filter.php?c=';
+export const GET_RANDOM = 'random.php';
 
 const fetchRecipes = (URL) => (
   fetch(URL)
