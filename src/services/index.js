@@ -6,6 +6,7 @@ export const BY_NAME = 'search.php?s=';
 export const BY_INGREDIENTS = 'filter.php?i=';
 export const BY_FIRST_LETTER = 'search.php?f=';
 export const BY_CATEGORIES = 'filter.php?c=';
+export const RECIPE_DETAILS = 'lookup.php?i=';
 
 const fetchRecipes = (URL) => (
   fetch(URL)
@@ -27,5 +28,14 @@ export const fetchCategories = (URL) => (
         filter.strCategory
       ));
     }));
+
+export const fetchDetails = (URL) => (
+  fetch(URL)
+    .then((response) => response.json())
+    .then((json) => {
+      const recipeDetails = json.meals || json.drinks;
+      return recipeDetails;
+    })
+);
 
 export default fetchRecipes;
