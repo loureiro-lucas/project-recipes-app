@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
 import fetchRecipes, { FOODS_URL,
@@ -12,16 +12,17 @@ import fetchRecipes, { FOODS_URL,
   DRINKS_CATEGORIES_URL,
   fetchDetails,
   RECIPE_DETAILS,
-  GET_RANDOM } from '../services';
+} from '../services';
 
 const RecipesProvider = ({ children }) => {
   const [recipes, setRecipes] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const [randomMealOrDrink, setRandomMealOrDrink] = useState([{}]);
-
   const [isSearchBarShown, setIsSearchBarShown] = useState(false);
   const [recipeDetails, setRecipeDetails] = useState([]);
+
+  const [randomMeal, setRandomMeal] = useState({});
+  const [randomDrink, setRandomDrink] = useState({});
 
   const getRecipesFromAPI = (pathname) => {
     fetchRecipes(`${pathname === '/comidas' ? FOODS_URL : DRINKS_URL}${BY_NAME}`)
@@ -76,10 +77,24 @@ const RecipesProvider = ({ children }) => {
       })
   );
 
-  const getRandom = (pathname) => {
-    fetchRecipes(`${pathname === '/comidas' ? FOODS_URL : DRINKS_URL}${GET_RANDOM}`)
-      .then((response) => setRandomMealOrDrink(response));
-  };
+  useEffect(() => {
+    async function getRandomMeal() {
+      const { meals } = await fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+        .then((response) => response.json());
+      setRandomMeal(meals[0].idMeal);
+    }
+
+    getRandomMeal();
+  }, []);
+
+  useEffect(() => {
+    async function getRandomDrink() {
+      const { drinks } = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
+        .then((response) => response.json());
+      setRandomDrink(drinks[0].idDrink);
+    }
+    getRandomDrink();
+  }, []);
 
   const context = {
     recipes,
@@ -89,14 +104,12 @@ const RecipesProvider = ({ children }) => {
     setIsSearchBarShown,
     categories,
     getCategoriesFromAPI,
-<<<<<<< HEAD
     recipeDetails,
     getDetails,
-=======
-    randomMealOrDrink,
-    setRandomMealOrDrink,
-    getRandom,
->>>>>>> e18de0b903fc9b5496957ef20efabfcdb385a958
+    randomMeal,
+    setRandomMeal,
+    randomDrink,
+    setRandomDrink,
   };
 
   return (
