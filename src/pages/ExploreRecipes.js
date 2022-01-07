@@ -10,16 +10,16 @@ function ExploreRecipes({ location: { pathname } }) {
     ? 'Explorar Comidas'
     : 'Explorar Bebidas';
 
-  const { randomMeal,
-    setRandomMeal,
-    randomDrink,
-    setRandomDrink } = useContext(RecipesContext);
+  const { randomMealId,
+    setRandomMealId,
+    randomDrinkId,
+    setRandomDrinkId } = useContext(RecipesContext);
 
   useEffect(() => {
     async function getRandomMeal() {
       const { meals } = await fetch('https://www.themealdb.com/api/json/v1/1/random.php')
         .then((response) => response.json());
-      setRandomMeal(meals[0].idMeal);
+      setRandomMealId(meals[0].idMeal);
     }
 
     getRandomMeal();
@@ -29,7 +29,7 @@ function ExploreRecipes({ location: { pathname } }) {
     async function getRandomDrink() {
       const { drinks } = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
         .then((response) => response.json());
-      setRandomDrink(drinks[0].idDrink);
+      setRandomDrinkId(drinks[0].idDrink);
     }
     getRandomDrink();
   }, []);
@@ -55,7 +55,7 @@ function ExploreRecipes({ location: { pathname } }) {
           </button>
         </Link>
 
-        <Link to={ `/comidas/${randomMeal}` }>
+        <Link to={ `/comidas/${randomMealId}` }>
           <button
             type="button"
             data-testid="explore-surprise"
@@ -79,7 +79,7 @@ function ExploreRecipes({ location: { pathname } }) {
           </button>
         </Link>
 
-        <Link to={ `/bebidas/${randomDrink}` }>
+        <Link to={ `/bebidas/${randomDrinkId}` }>
           <button
             type="button"
             data-testid="explore-surprise"

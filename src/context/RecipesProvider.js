@@ -21,8 +21,8 @@ const RecipesProvider = ({ children }) => {
   const [isSearchBarShown, setIsSearchBarShown] = useState(false);
   const [recipeDetails, setRecipeDetails] = useState([]);
 
-  const [randomMeal, setRandomMeal] = useState({});
-  const [randomDrink, setRandomDrink] = useState({});
+  const [randomMealId, setRandomMealId] = useState({});
+  const [randomDrinkId, setRandomDrinkId] = useState({});
 
   const getRecipesFromAPI = (pathname) => {
     fetchRecipes(`${pathname === '/comidas' ? FOODS_URL : DRINKS_URL}${BY_NAME}`)
@@ -87,10 +87,10 @@ const RecipesProvider = ({ children }) => {
     getCategoriesFromAPI,
     recipeDetails,
     getDetails,
-    randomMeal,
-    setRandomMeal,
-    randomDrink,
-    setRandomDrink,
+    randomMealId,
+    setRandomMealId,
+    randomDrinkId,
+    setRandomDrinkId,
   };
 
   return (
