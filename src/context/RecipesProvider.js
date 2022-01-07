@@ -15,6 +15,9 @@ import fetchRecipes, { FOODS_URL,
 } from '../services';
 
 const RecipesProvider = ({ children }) => {
+  const NUMBER_OF_RECIPES = 12;
+  const NUMBER_OF_RECOMENDATIONS = 6;
+
   const [recipes, setRecipes] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -27,9 +30,17 @@ const RecipesProvider = ({ children }) => {
   const [isDetailsFetched, setIsDetailsFetched] = useState(false);
   const [ingredientsList, setIngredientsList] = useState([]);
 
+  const [recomendations, setRecomendations] = useState([]);
+
   const getRecipesFromAPI = (pathname) => {
     fetchRecipes(`${pathname === '/comidas' ? FOODS_URL : DRINKS_URL}${BY_NAME}`)
-      .then((response) => setRecipes(response));
+      .then((response) => setRecipes(response.slice(0, NUMBER_OF_RECIPES)));
+  };
+
+  const getRecomendations = (pathname) => {
+    fetchRecipes(`${pathname.split('/')[1] === 'comidas'
+      ? DRINKS_URL : FOODS_URL}${BY_NAME}`)
+      .then((response) => setRecomendations(response.slice(0, NUMBER_OF_RECOMENDATIONS)));
   };
 
   const getIngredients = (pathname, details) => {
@@ -57,9 +68,9 @@ const RecipesProvider = ({ children }) => {
         : DRINKS_URL}${RECIPE_DETAILS}${pathname.split('/')[2]}`,
     );
     await setRecipeDetails(details[0]);
-    console.log(details[0]);
     await getIngredients(pathname, details[0]);
     await setIsDetailsFetched(true);
+    await getRecomendations(pathname);
   };
 
   const getCategoriesFromAPI = (pathname) => {
@@ -99,7 +110,7 @@ const RecipesProvider = ({ children }) => {
   const filterRecipes = (pathname, searchValue, searchBy) => (
     filters(pathname, searchValue, searchBy)
       .then((response) => {
-        setRecipes(response);
+        setRecipes(response.slice(0, NUMBER_OF_RECIPES));
         return response;
       })
   );
@@ -120,6 +131,7 @@ const RecipesProvider = ({ children }) => {
     setRandomDrinkId,
     isDetailsFetched,
     ingredientsList,
+    recomendations,
   };
 
   return (

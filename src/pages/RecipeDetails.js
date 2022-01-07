@@ -1,13 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from '../context/RecipesContext';
-import { DRINKS_CATEGORIES_URL } from '../services';
+import '../styles/RecipeDetails.css';
 
 function RecipeDetails({ location: { pathname } }) {
   const { recipeDetails,
     getDetails,
     isDetailsFetched,
     ingredientsList,
+    recomendations,
   } = useContext(RecipesContext);
 
   const details = {
@@ -31,14 +32,15 @@ function RecipeDetails({ location: { pathname } }) {
       <h1 data-testid="recipe-title">{ details.title }</h1>
       <button type="button" data-testid="share-btn">Share</button>
       <button type="button" data-testid="favorite-btn">Favorite</button>
-      <h3 data-testid="recipe-category">
+      <h2 data-testid="recipe-category">
         Category:
         { ` ${recipeDetails.strCategory}` }
+        <br />
         { pathname.split('/')[1] === 'bebidas' && (
-          <h3>{ recipeDetails.strAlcoholic }</h3>
+          recipeDetails.strAlcoholic
         )}
-      </h3>
-      <h3>Ingredients</h3>
+      </h2>
+      <h2>Ingredients</h2>
       <ul
         data-testid={ `${pathname.split('/')[2]}-ingredient-name-and-measure` }
       >
@@ -52,7 +54,7 @@ function RecipeDetails({ location: { pathname } }) {
           ))
         }
       </ul>
-      <h3>Instructions</h3>
+      <h2>Instructions</h2>
       <p data-testid="instructions">{ recipeDetails.strInstructions }</p>
       { pathname.split('/')[1] === 'comidas'
         && <iframe
@@ -60,13 +62,40 @@ function RecipeDetails({ location: { pathname } }) {
           title="recipe-video"
           data-testid="video"
         /> }
-      <h2
-        data-testid={ `${pathname.split('/')[2]}-recomendation-card` }
+      <div>
+        Recomendations
+        { recomendations.map((recomendation, index) => (
+          <div key={ index } data-testid={ `${index}-recomendation-card` }>
+            <img
+              data-testid="recipe-photo"
+              alt="details"
+              src={ pathname.split('/')[1] === 'bebidas'
+                ? recomendation.strMealThumb : recomendation.strDrinkThumb }
+            />
+            <h2 data-testid={ `${index}-recomendation-category` }>
+              Category:
+              { ` ${recomendation.strCategory}` }
+              <br />
+              { pathname.split('/')[1] === 'bebidas' && (
+                recomendation.strAlcoholic
+              )}
+            </h2>
+            <h1 data-testid={ `${index}-recomendation-title` }>
+              {
+                pathname.split('/')[1] === 'bebidas'
+                  ? recomendation.strMeal : recomendation.strDrink
+              }
+            </h1>
+          </div>
+        )) }
+      </div>
+      <button
+        type="button"
+        id="start-recipe-button"
+        data-testid="start-recipe-btn"
       >
-        Recomendation
-
-      </h2>
-      <button type="button" data-testid="start-recipe-btn">Start</button>
+        Iniciar Receita
+      </button>
     </div>
   );
 
