@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
@@ -10,10 +10,29 @@ function ExploreRecipes({ location: { pathname } }) {
     ? 'Explorar Comidas'
     : 'Explorar Bebidas';
 
-  const {
-    randomMeal,
+  const { randomMeal,
+    setRandomMeal,
     randomDrink,
-  } = useContext(RecipesContext);
+    setRandomDrink } = useContext(RecipesContext);
+
+  useEffect(() => {
+    async function getRandomMeal() {
+      const { meals } = await fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+        .then((response) => response.json());
+      setRandomMeal(meals[0].idMeal);
+    }
+
+    getRandomMeal();
+  }, []);
+
+  useEffect(() => {
+    async function getRandomDrink() {
+      const { drinks } = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
+        .then((response) => response.json());
+      setRandomDrink(drinks[0].idDrink);
+    }
+    getRandomDrink();
+  }, []);
 
   function renderExploreFoods() {
     return (

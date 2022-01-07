@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
 import fetchRecipes, { FOODS_URL,
@@ -76,25 +76,6 @@ const RecipesProvider = ({ children }) => {
         return response;
       })
   );
-
-  useEffect(() => {
-    async function getRandomMeal() {
-      const { meals } = await fetch('https://www.themealdb.com/api/json/v1/1/random.php')
-        .then((response) => response.json());
-      setRandomMeal(meals[0].idMeal);
-    }
-
-    getRandomMeal();
-  }, []);
-
-  useEffect(() => {
-    async function getRandomDrink() {
-      const { drinks } = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
-        .then((response) => response.json());
-      setRandomDrink(drinks[0].idDrink);
-    }
-    getRandomDrink();
-  }, []);
 
   const context = {
     recipes,
