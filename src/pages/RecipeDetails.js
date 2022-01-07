@@ -31,7 +31,6 @@ function RecipeDetails({ location: { pathname } }) {
 
   return (
     <div>
-      <Header pageTitle="detalhes" showSearchBar="true" />
       <img data-testid="recipe-photo" alt="details" src={ details.thumb } />
       <title data-testid="recipe-title">{ details.title }</title>
       <button type="button" data-testid="share-btn">Share</button>
