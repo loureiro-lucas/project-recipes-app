@@ -19,20 +19,47 @@ const RecipesProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
 
   const [isSearchBarShown, setIsSearchBarShown] = useState(false);
-  const [recipeDetails, setRecipeDetails] = useState([]);
+  const [recipeDetails, setRecipeDetails] = useState({});
 
   const [randomMealId, setRandomMealId] = useState({});
   const [randomDrinkId, setRandomDrinkId] = useState({});
+
+  const [isDetailsFetched, setIsDetailsFetched] = useState(false);
+  const [ingredientsList, setIngredientsList] = useState([]);
 
   const getRecipesFromAPI = (pathname) => {
     fetchRecipes(`${pathname === '/comidas' ? FOODS_URL : DRINKS_URL}${BY_NAME}`)
       .then((response) => setRecipes(response));
   };
 
-  const getDetails = (pathname) => {
-    console.log(pathname);
-    fetchDetails(`${pathname === '/comidas' ? FOODS_URL : DRINKS_URL}${RECIPE_DETAILS}`)
-      .then((response) => setRecipeDetails(response));
+  const getIngredients = (pathname, details) => {
+    const MEALS_INGREDIENTS_LIMIT = 20;
+    const DRINKS_INGREDIENTS_LIMIT = 15;
+    const verification = pathname.split('/')[1] === 'comidas'
+      ? MEALS_INGREDIENTS_LIMIT
+      : DRINKS_INGREDIENTS_LIMIT;
+    const ingredients = [];
+    for (let index = 1; index <= verification; index += 1) {
+      const measure = details[`strMeasure${index}`] !== null
+        ? details[`strMeasure${index}`] : '';
+      const ingredient = details[`strIngredient${index}`];
+      ingredients.push(
+        `${measure} ${ingredient}`,
+      );
+    }
+    setIngredientsList(ingredients);
+  };
+
+  const getDetails = async (pathname) => {
+    const details = await fetchDetails(
+      `${pathname.split('/')[1] === 'comidas'
+        ? FOODS_URL
+        : DRINKS_URL}${RECIPE_DETAILS}${pathname.split('/')[2]}`,
+    );
+    await setRecipeDetails(details[0]);
+    console.log(details[0]);
+    await getIngredients(pathname, details[0]);
+    await setIsDetailsFetched(true);
   };
 
   const getCategoriesFromAPI = (pathname) => {
@@ -91,6 +118,8 @@ const RecipesProvider = ({ children }) => {
     setRandomMealId,
     randomDrinkId,
     setRandomDrinkId,
+    isDetailsFetched,
+    ingredientsList,
   };
 
   return (

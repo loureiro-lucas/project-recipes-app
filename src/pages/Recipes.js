@@ -30,9 +30,6 @@ function Recipes({ location: { pathname } }) {
     }
   }, [recipes]);
 
-  console.log(recipes);
-  console.log(FOODS_URL.split('/'));
-
   return (
     <>
       <Header

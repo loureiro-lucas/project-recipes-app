@@ -1,55 +1,78 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Header from '../components/Header';
 import RecipesContext from '../context/RecipesContext';
+import { DRINKS_CATEGORIES_URL } from '../services';
 
 function RecipeDetails({ location: { pathname } }) {
-  const { recipeDetails, getDetails } = useContext(RecipesContext);
+  const { recipeDetails,
+    getDetails,
+    isDetailsFetched,
+    ingredientsList,
+  } = useContext(RecipesContext);
+
   const details = {
-    thumb: pathname.split('/')[0] === 'comidas'
-      ? recipeDetails.strMealsThumb : recipeDetails.strDrinkThumb,
-    title: pathname.split('/')[0] === 'comidas'
-      ? recipeDetails.strMeals : recipeDetails.strDrink,
+    thumb: pathname.split('/')[1] === 'comidas'
+      ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb,
+    title: pathname.split('/')[1] === 'comidas'
+      ? recipeDetails.strMeal : recipeDetails.strDrink,
   };
 
-  function getIngredients() {
-    const ingredients = Object.keys(recipeDetails)
-      .filter((key) => key.includes('Ingredient'));
-    const measures = Object.keys(recipeDetails)
-      .filter((key) => key.includes('Measure'));
-    console.log(ingredients);
-    console.log(measures);
-  }
-
-  useEffect(() => {
-    getIngredients();
-  }, [recipeDetails]);
   useEffect(() => {
     getDetails(pathname);
-    getIngredients();
   }, []);
 
-  return (
+  const renderDetails = () => (
     <div>
-      <img data-testid="recipe-photo" alt="details" src={ details.thumb } />
-      <title data-testid="recipe-title">{ details.title }</title>
+      <img
+        data-testid="recipe-photo"
+        alt="details"
+        src={ details.thumb }
+      />
+      <h1 data-testid="recipe-title">{ details.title }</h1>
       <button type="button" data-testid="share-btn">Share</button>
       <button type="button" data-testid="favorite-btn">Favorite</button>
-      <h3 data-testid="recipe-category">{ recipeDetails.strCategory }</h3>
-      <h2
-        data-testid={ `${pathname.split('/')[1]}-ingredient-name-and-measure` }
+      <h3 data-testid="recipe-category">
+        Category:
+        { ` ${recipeDetails.strCategory}` }
+        { pathname.split('/')[1] === 'bebidas' && (
+          <h3>{ recipeDetails.strAlcoholic }</h3>
+        )}
+      </h3>
+      <h3>Ingredients</h3>
+      <ul
+        data-testid={ `${pathname.split('/')[2]}-ingredient-name-and-measure` }
       >
-        Ingredients
-      </h2>
-      <h3 data-testid="instructions">Instructions</h3>
-      <iframe title="video" data-testid="video">Vídeo</iframe>
+        {
+          ingredientsList.map((ingredient, index) => ingredient !== '  '
+          && ingredient !== ' null'
+          && (
+            <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
+              { ingredient }
+            </li>
+          ))
+        }
+      </ul>
+      <h3>Instructions</h3>
+      <p data-testid="instructions">{ recipeDetails.strInstructions }</p>
+      { pathname.split('/')[1] === 'comidas'
+        && <iframe
+          src={ `https://www.youtube.com/embed/${recipeDetails.strYoutube.split('=')[1]}` }
+          title="recipe-video"
+          data-testid="video"
+        /> }
       <h2
-        data-testid={ `${pathname.split('/')[1]}-recomendation-card` }
+        data-testid={ `${pathname.split('/')[2]}-recomendation-card` }
       >
         Recomendation
 
       </h2>
       <button type="button" data-testid="start-recipe-btn">Start</button>
+    </div>
+  );
+
+  return (
+    <div>
+      { isDetailsFetched && renderDetails() }
     </div>
   );
 }

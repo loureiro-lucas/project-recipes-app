@@ -7,7 +7,6 @@ export const BY_INGREDIENTS = 'filter.php?i=';
 export const BY_FIRST_LETTER = 'search.php?f=';
 export const BY_CATEGORIES = 'filter.php?c=';
 export const RECIPE_DETAILS = 'lookup.php?i=';
-export const GET_RANDOM = 'random.php';
 
 const fetchRecipes = (URL) => (
   fetch(URL)
@@ -24,7 +23,6 @@ export const fetchCategories = (URL) => (
     .then((json) => {
       const NUMBER_OF_FILTERS = 5;
       const filters = json.meals || json.drinks;
-      console.log(filters);
       return !filters ? undefined : filters.slice(0, NUMBER_OF_FILTERS).map((filter) => (
         filter.strCategory
       ));
