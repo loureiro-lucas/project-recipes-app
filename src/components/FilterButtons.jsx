@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from '../context/RecipesContext';
+import '../styles/Recipes.css';
 
 const FilterButtons = ({ pathname }) => {
   const [categorySelected, setCategorySelected] = useState('');
@@ -26,6 +27,7 @@ const FilterButtons = ({ pathname }) => {
   return (
     <>
       <button
+        className="filter-btn"
         type="button"
         value="all"
         onClick={ handleClickCategories }
@@ -36,6 +38,7 @@ const FilterButtons = ({ pathname }) => {
       {
         categories.map((category) => (
           <button
+            className="filter-btn"
             key={ category }
             onClick={ handleClickCategories }
             type="button"

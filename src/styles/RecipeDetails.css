@@ -1,4 +1,14 @@
-#start-recipe-button {
+.start-recipe {
+  background-color: #ea1d2c;
+  border: none;
   bottom: 0;
+  color: white;
+  margin: 10px;
+  padding: 10px 25px;
   position: fixed;
+  transition: 0.4s ease;
+}
+
+.start-recipe:hover {
+  background-color: #94141c;
 }

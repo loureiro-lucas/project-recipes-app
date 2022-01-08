@@ -1,19 +1,14 @@
-.recipes-container {
+.profile-container {
+  align-items: center;
+  background-color: white;
+  color: black;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 15px 0 35px;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
 }
 
-.recipe-card-container {
-  width: 40%;
-}
-
-.recipe-image {
-  width: 100%;
-}
-
-.filter-btn {
+.profile-btn {
   background-color: #ea1d2c;
   border: 1px solid black;
   border-radius: 10px;
@@ -23,7 +18,7 @@
   transition: 0.4s ease;
 }
 
-.filter-btn:hover {
+.profile-btn:hover {
   background-color: white;
   color: black;
 }

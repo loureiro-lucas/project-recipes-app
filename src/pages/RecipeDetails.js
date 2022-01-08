@@ -91,7 +91,7 @@ function RecipeDetails({ location: { pathname } }) {
       </div>
       <button
         type="button"
-        id="start-recipe-button"
+        className="start-recipe"
         data-testid="start-recipe-btn"
       >
         Iniciar Receita
