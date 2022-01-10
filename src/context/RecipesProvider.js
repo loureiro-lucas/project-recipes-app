@@ -32,6 +32,9 @@ const RecipesProvider = ({ children }) => {
 
   const [recomendations, setRecomendations] = useState([]);
 
+  const [foodIngredients, setFoodIngredients] = useState([]);
+  const [drinkIngredients, setDrinkIngredients] = useState([]);
+
   const getRecipesFromAPI = (pathname) => {
     fetchRecipes(`${pathname === '/comidas' ? FOODS_URL : DRINKS_URL}${BY_NAME}`)
       .then((response) => setRecipes(response.slice(0, NUMBER_OF_RECIPES)));
@@ -132,6 +135,10 @@ const RecipesProvider = ({ children }) => {
     isDetailsFetched,
     ingredientsList,
     recomendations,
+    foodIngredients,
+    setFoodIngredients,
+    drinkIngredients,
+    setDrinkIngredients,
   };
 
   return (
