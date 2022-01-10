@@ -35,6 +35,8 @@ const RecipesProvider = ({ children }) => {
   const [foodIngredients, setFoodIngredients] = useState([]);
   const [drinkIngredients, setDrinkIngredients] = useState([]);
 
+  const [recipeByArea, setRecipeByArea] = useState([]);
+
   const getRecipesFromAPI = (pathname) => {
     fetchRecipes(`${pathname === '/comidas' ? FOODS_URL : DRINKS_URL}${BY_NAME}`)
       .then((response) => setRecipes(response.slice(0, NUMBER_OF_RECIPES)));
@@ -139,6 +141,8 @@ const RecipesProvider = ({ children }) => {
     setFoodIngredients,
     drinkIngredients,
     setDrinkIngredients,
+    recipeByArea,
+    setRecipeByArea,
   };
 
   return (
