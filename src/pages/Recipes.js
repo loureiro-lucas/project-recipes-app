@@ -30,9 +30,6 @@ function Recipes({ location: { pathname } }) {
     }
   }, [recipes]);
 
-  console.log(recipes);
-  console.log(FOODS_URL.split('/'));
-
   return (
     <>
       <Header
@@ -49,11 +46,10 @@ function Recipes({ location: { pathname } }) {
             to={ `${pathname}/${pathname === '/comidas'
               ? recipe.idMeal : recipe.idDrink}` }
             key={ index }
+            className="recipe-card-container"
+            data-testid={ `${index}-recipe-card` }
           >
-            <div
-              className="recipe-card-container"
-              data-testid={ `${index}-recipe-card` }
-            >
+            <>
               <img
                 src={ recipe.strMealThumb || recipe.strDrinkThumb }
                 alt="recipe"
@@ -63,7 +59,7 @@ function Recipes({ location: { pathname } }) {
               <p data-testid={ `${index}-card-name` }>
                 { recipe.strMeal || recipe.strDrink }
               </p>
-            </div>
+            </>
           </Link>
         )) }
       </div>

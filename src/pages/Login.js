@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import laricapp from '../images/laricapp.png';
+import '../styles/Login.css';
 
 function Login({ history }) {
   const [email, setEmail] = useState('');
@@ -46,39 +48,47 @@ function Login({ history }) {
   };
 
   return (
-    <form onSubmit={ handleSubmit }>
-      <label htmlFor="email-input">
-        Email:
-        <input
-          type="email"
-          name="email"
-          id="email-input"
-          data-testid="email-input"
-          value={ email }
-          onChange={ handleEmailInput }
-        />
-      </label>
+    <div className="login-page">
+      <img className="logo-laricapp" src={ laricapp } alt="laricapp" />
+      <div className="form-container">
+        <form onSubmit={ handleSubmit }>
+          <label htmlFor="email-input">
+            Email:
+            <input
+              className="login-input"
+              type="email"
+              name="email"
+              id="email-input"
+              data-testid="email-input"
+              value={ email }
+              onChange={ handleEmailInput }
+            />
+          </label>
 
-      <label htmlFor="password-input">
-        Senha:
-        <input
-          type="password"
-          name="password"
-          id="password-input"
-          data-testid="password-input"
-          value={ password }
-          onChange={ handlePasswordInput }
-        />
-      </label>
+          <label htmlFor="password-input">
+            Senha:
+            <input
+              className="login-input"
+              type="password"
+              name="password"
+              id="password-input"
+              data-testid="password-input"
+              value={ password }
+              onChange={ handlePasswordInput }
+            />
+          </label>
 
-      <button
-        type="submit"
-        data-testid="login-submit-btn"
-        disabled={ !(isEmailValid && isPasswordValid) }
-      >
-        Entrar
-      </button>
-    </form>
+          <button
+            className="login-btn"
+            type="submit"
+            data-testid="login-submit-btn"
+            disabled={ !(isEmailValid && isPasswordValid) }
+          >
+            Entrar
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
 

@@ -13,7 +13,7 @@ const Routes = () => (
       component={ pages.RecipeDetails }
     />
     <Route
-      path="/comidas/:id-da-receita/in-progress"
+      path="/comidas/:id/in-progress"
       component={ pages.RecipeInProgress }
     />
 
@@ -24,11 +24,11 @@ const Routes = () => (
     />
     <Route
       exact
-      path="/bebidas/:id-da-receita"
+      path="/bebidas/:id"
       component={ pages.RecipeDetails }
     />
     <Route
-      path="/bebidas/:id-da-receita/in-progress"
+      path="/bebidas/:id/in-progress"
       component={ pages.RecipeInProgress }
     />
 
