@@ -1,7 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import copy from 'clipboard-copy';
 import RecipesContext from '../context/RecipesContext';
 import '../styles/RecipeDetails.css';
+import shareIcon from '../images/shareIcon.svg';
+// import { Link } from 'react-router-dom';
 
 function RecipeDetails({ location: { pathname } }) {
   const { recipeDetails,
@@ -11,11 +14,19 @@ function RecipeDetails({ location: { pathname } }) {
     recomendations,
   } = useContext(RecipesContext);
 
+  const [isLinkCopied, setCopyLink] = useState(false);
+
   const details = {
     thumb: pathname.split('/')[1] === 'comidas'
       ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb,
     title: pathname.split('/')[1] === 'comidas'
       ? recipeDetails.strMeal : recipeDetails.strDrink,
+  };
+
+  const copyRecipe = () => {
+    setCopyLink(!isLinkCopied);
+    // Referencia retirada => https://blog.dadops.co/2021/03/17/copy-and-paste-in-a-react-app/
+    copy(window.location.href);
   };
 
   useEffect(() => {
@@ -30,7 +41,9 @@ function RecipeDetails({ location: { pathname } }) {
         src={ details.thumb }
       />
       <h1 data-testid="recipe-title">{ details.title }</h1>
-      <button type="button" data-testid="share-btn">Share</button>
+      <button type="button" data-testid="share-btn" onClick={ copyRecipe }>
+        <img src={ shareIcon } alt="share" />
+      </button>
       <button type="button" data-testid="favorite-btn">Favorite</button>
       <h2 data-testid="recipe-category">
         Category:
@@ -40,6 +53,9 @@ function RecipeDetails({ location: { pathname } }) {
           recipeDetails.strAlcoholic
         )}
       </h2>
+      { isLinkCopied && (
+        <div>Link copiado!</div>
+      ) }
       <h2>Ingredients</h2>
       <ul
         data-testid={ `${pathname.split('/')[2]}-ingredient-name-and-measure` }
@@ -89,6 +105,7 @@ function RecipeDetails({ location: { pathname } }) {
           </div>
         )) }
       </div>
+      {/* <Link> */}
       <button
         type="button"
         className="start-recipe"
@@ -96,6 +113,7 @@ function RecipeDetails({ location: { pathname } }) {
       >
         Iniciar Receita
       </button>
+      {/* </Link> */}
     </div>
   );
 
