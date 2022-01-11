@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { Splide, SplideSlide } from '@splidejs/react-splide';
 import { Link } from 'react-router-dom';
-import '@splidejs/splide/dist/css/splide.min.css';
 import PropTypes from 'prop-types';
 import copy from 'clipboard-copy';
+import Ingredients from './Ingredients';
+import Recomendations from './Recomendations';
 import RecipesContext from '../context/RecipesContext';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -19,8 +19,6 @@ const DetailsRendered = ({ isRecipeDone,
 
   const {
     recipeDetails,
-    ingredientsList,
-    recomendations,
   } = useContext(RecipesContext);
 
   const details = {
@@ -55,13 +53,16 @@ const DetailsRendered = ({ isRecipeDone,
       <button type="button" data-testid="share-btn" onClick={ copyRecipe }>
         <img src={ shareIcon } alt="share" />
       </button>
-
-      <input
-        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+      <button
         type="button"
-        data-testid="favorite-btn"
         onClick={ handleFavoriteBtn }
-      />
+      >
+        <img
+          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+          data-testid="favorite-btn"
+          alt="favorite"
+        />
+      </button>
       { isLinkCopied && (
         <div>Link copiado!</div>
       ) }
@@ -73,20 +74,7 @@ const DetailsRendered = ({ isRecipeDone,
           recipeDetails.strAlcoholic
         )}
       </h2>
-      <h2>Ingredients</h2>
-      <ul
-        data-testid={ `${pathname.split('/')[2]}-ingredient-name-and-measure` }
-      >
-        {
-          ingredientsList.map((ingredient, index) => ingredient !== '  '
-          && ingredient !== ' null'
-          && (
-            <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-              { ingredient }
-            </li>
-          ))
-        }
-      </ul>
+      <Ingredients />
       <h2>Instructions</h2>
       <p data-testid="instructions">{ recipeDetails.strInstructions }</p>
       { pathname.split('/')[1] === 'comidas'
@@ -95,53 +83,7 @@ const DetailsRendered = ({ isRecipeDone,
           title="recipe-video"
           data-testid="video"
         /> }
-      <div>
-        <h2>Recomendations</h2>
-        <Splide
-          options={ {
-            rewind: true,
-            width: 700,
-            gap: '1rem',
-            perPage: 2,
-          } }
-        >
-          { recomendations.map((recomendation, index) => (
-            <SplideSlide
-              key={ index }
-              data-testid={ `${index}-recomendation-card` }
-            >
-              <img
-                data-testid="recipe-photo"
-                alt="details"
-                width="200px"
-                src={ pathname.split('/')[1] === 'bebidas'
-                  ? recomendation.strMealThumb : recomendation.strDrinkThumb }
-              />
-              <h2
-                data-testid={ `${index}-recomendation-category` }
-                style={ { display: 'block', width: '300px', backgroundColor: 'red' } }
-              >
-                Category:
-                { ` ${recomendation.strCategory}` }
-                <br />
-                { pathname.split('/')[1] === 'bebidas' && (
-                  recomendation.strAlcoholic
-                )}
-              </h2>
-              <h1
-                data-testid={ `${index}-recomendation-title` }
-                style={ { display: 'block', width: '300px' } }
-              >
-                {
-                  pathname.split('/')[1] === 'bebidas'
-                    ? recomendation.strMeal : recomendation.strDrink
-                }
-              </h1>
-            </SplideSlide>
-          )) }
-        </Splide>
-      </div>
-
+      <Recomendations />
       <Link to={ `${pathname}/in-progress` }>
         <button
           type="button"
