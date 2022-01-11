@@ -10,10 +10,6 @@ function RecipeIngredients({ location: { pathname } }) {
     drinkIngredients,
     setDrinkIngredients } = useContext(RecipesContext);
 
-  // https://www.themealdb.com/images/ingredients/{nome-do-ingrediente}.png
-  // exemplo com "lime
-  // https://www.themealdb.com/images/ingredients/Lime.png
-
   useEffect(() => {
     async function getFoodsIngredients() {
       const { meals } = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list')
@@ -85,7 +81,7 @@ function RecipeIngredients({ location: { pathname } }) {
   return (
     <>
       <Header pageTitle="Explorar Ingredientes" showSearchIcon={ false } />
-      { pathname === '/explorar/comidas/ingredientes'
+      { pathname.includes('/explorar/comidas/ingredientes')
         ? exploreFoodsIngredients() : exploreDrinksIngredients() }
       <Footer />
     </>

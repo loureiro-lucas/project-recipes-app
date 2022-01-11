@@ -20,23 +20,22 @@ const RecipesProvider = ({ children }) => {
 
   const [recipes, setRecipes] = useState([]);
   const [categories, setCategories] = useState([]);
-
   const [isSearchBarShown, setIsSearchBarShown] = useState(false);
   const [recipeDetails, setRecipeDetails] = useState({});
-
   const [randomMealId, setRandomMealId] = useState({});
   const [randomDrinkId, setRandomDrinkId] = useState({});
-
   const [isDetailsFetched, setIsDetailsFetched] = useState(false);
   const [ingredientsList, setIngredientsList] = useState([]);
-
   const [recomendations, setRecomendations] = useState([]);
-
   const [foodIngredients, setFoodIngredients] = useState([]);
   const [drinkIngredients, setDrinkIngredients] = useState([]);
+  const [recipesDone, setRecipesDone] = useState([]);
+  const [recipesInProgress, setRecipesInProgress] = useState([]);
+
+  const [recipeByArea, setRecipeByArea] = useState([]);
 
   const getRecipesFromAPI = (pathname) => {
-    fetchRecipes(`${pathname === '/comidas' ? FOODS_URL : DRINKS_URL}${BY_NAME}`)
+    fetchRecipes(`${pathname.includes('/comidas') ? FOODS_URL : DRINKS_URL}${BY_NAME}`)
       .then((response) => setRecipes(response.slice(0, NUMBER_OF_RECIPES)));
   };
 
@@ -74,10 +73,11 @@ const RecipesProvider = ({ children }) => {
     await getIngredients(pathname, details[0]);
     await setIsDetailsFetched(true);
     await getRecomendations(pathname);
+    console.log(details[0]);
   };
 
   const getCategoriesFromAPI = (pathname) => {
-    fetchCategories(`${pathname === '/comidas'
+    fetchCategories(`${pathname.includes('/comidas')
       ? MEALS_CATEGORIES_URL
       : DRINKS_CATEGORIES_URL}`)
       .then((response) => setCategories(response));
@@ -86,22 +86,22 @@ const RecipesProvider = ({ children }) => {
   const filters = (pathname, searchValue, searchBy) => {
     switch (searchBy) {
     case 'name':
-      if (pathname === '/comidas') {
+      if (pathname.includes('/comidas')) {
         return fetchRecipes(FOODS_URL + BY_NAME + searchValue);
       } return fetchRecipes(DRINKS_URL + BY_NAME + searchValue);
 
     case 'ingredient':
-      if (pathname === '/comidas') {
+      if (pathname.includes('/comidas')) {
         return fetchRecipes(FOODS_URL + BY_INGREDIENTS + searchValue);
       } return fetchRecipes(DRINKS_URL + BY_INGREDIENTS + searchValue);
 
     case 'first-letter':
-      if (pathname === '/comidas') {
+      if (pathname.includes('/comidas')) {
         return fetchRecipes(FOODS_URL + BY_FIRST_LETTER + searchValue);
       } return fetchRecipes(DRINKS_URL + BY_FIRST_LETTER + searchValue);
 
     case 'category':
-      if (pathname === '/comidas') {
+      if (pathname.includes('/comidas')) {
         return fetchRecipes(FOODS_URL + BY_CATEGORIES + searchValue);
       } return fetchRecipes(DRINKS_URL + BY_CATEGORIES + searchValue);
 
@@ -139,6 +139,12 @@ const RecipesProvider = ({ children }) => {
     setFoodIngredients,
     drinkIngredients,
     setDrinkIngredients,
+    recipeByArea,
+    setRecipeByArea,
+    recipesDone,
+    setRecipesDone,
+    recipesInProgress,
+    setRecipesInProgress,
   };
 
   return (
