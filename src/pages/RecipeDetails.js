@@ -1,120 +1,103 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import copy from 'clipboard-copy';
 import RecipesContext from '../context/RecipesContext';
+import DetailsRendered from '../components/DetailsRendered';
 import '../styles/RecipeDetails.css';
-import shareIcon from '../images/shareIcon.svg';
-// import { Link } from 'react-router-dom';
 
 function RecipeDetails({ location: { pathname } }) {
-  const { recipeDetails,
+  const [isRecipeDone, setIsRecipeDone] = useState(false);
+  const [isRecipeInProgress, setIsRecipeInProgress] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const {
     getDetails,
     isDetailsFetched,
-    ingredientsList,
-    recomendations,
+    recipeDetails,
+    // setRecipesDone,
+    // setRecipesInProgress,
   } = useContext(RecipesContext);
 
-  const [isLinkCopied, setCopyLink] = useState(false);
+  const getFavoritesFromStorage = () => (
+    JSON.parse(localStorage.getItem('favoriteRecipes' || [])));
 
-  const details = {
-    thumb: pathname.split('/')[1] === 'comidas'
-      ? recipeDetails.strMealThumb : recipeDetails.strDrinkThumb,
-    title: pathname.split('/')[1] === 'comidas'
-      ? recipeDetails.strMeal : recipeDetails.strDrink,
+  const addToFavorites = () => {
+    const currentFavorites = getFavoritesFromStorage() || [];
+    console.log('add');
+    console.log(currentFavorites);
+    localStorage.setItem('favoriteRecipes', JSON.stringify([
+      ...currentFavorites,
+      {
+        id: recipeDetails.idMeal || recipeDetails.idDrink,
+        type: recipeDetails.idMeal ? 'comida' : 'bebida',
+        area: recipeDetails.strArea || '',
+        category: recipeDetails.strCategory || '',
+        alcoholicOrNot: recipeDetails.strAlcoholic || '',
+        name: recipeDetails.strMeal || recipeDetails.strDrink,
+        image: recipeDetails.strMealThumb || recipeDetails.strDrinkThumb,
+      }]));
+
+    setIsFavorite(!isFavorite);
   };
 
-  const copyRecipe = () => {
-    setCopyLink(!isLinkCopied);
-    // Referencia retirada => https://blog.dadops.co/2021/03/17/copy-and-paste-in-a-react-app/
-    copy(window.location.href);
+  const removeFromFavorites = () => {
+    const currentFavorites = getFavoritesFromStorage() || [];
+    console.log('remove');
+    console.log(currentFavorites);
+    const listWithoutItem = currentFavorites
+      .map(({ id }) => (
+        id !== pathname.split('/')[2]));
+    localStorage.setItem('favoriteRecipes', JSON.stringify(listWithoutItem));
+
+    setIsFavorite(!isFavorite);
+  };
+
+  const checkIfIsFavorite = () => {
+    const currentFavorites = getFavoritesFromStorage() || [];
+    const isThisRecipeFavorite = currentFavorites
+      .find(({ id }) => (
+        id === pathname.split('/')[2]));
+    setIsFavorite(isThisRecipeFavorite);
+  };
+
+  const checkIfWasRecipeDone = (doneRecipesList) => {
+    const isThisRecipeDone = doneRecipesList
+      .find(({ id }) => (
+        id === pathname.split('/')[2]));
+    setIsRecipeDone(isThisRecipeDone);
+  };
+
+  const checkIfIsRecipeInProgress = (recipesInProgressList) => {
+    const isThisRecipeInProgress = Object
+      .keys(recipesInProgressList.meals || recipesInProgressList.cocktails)
+      .find((key) => (key === pathname.split('/')[2]));
+    setIsRecipeInProgress(isThisRecipeInProgress);
+  };
+
+  const getRecipesFromStorage = () => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    // setRecipesDone(doneRecipes || []);
+    // setRecipesInProgress(inProgressRecipes || []);
+    checkIfWasRecipeDone(doneRecipes || []);
+    checkIfIsRecipeInProgress(inProgressRecipes || { meals: {} });
+    checkIfIsFavorite();
   };
 
   useEffect(() => {
     getDetails(pathname);
+    getRecipesFromStorage();
+    checkIfIsFavorite();
   }, []);
 
   const renderDetails = () => (
-    <div>
-      <img
-        data-testid="recipe-photo"
-        alt="details"
-        src={ details.thumb }
-      />
-      <h1 data-testid="recipe-title">{ details.title }</h1>
-      <button type="button" data-testid="share-btn" onClick={ copyRecipe }>
-        <img src={ shareIcon } alt="share" />
-      </button>
-      <button type="button" data-testid="favorite-btn">Favorite</button>
-      <h2 data-testid="recipe-category">
-        Category:
-        { ` ${recipeDetails.strCategory}` }
-        <br />
-        { pathname.split('/')[1] === 'bebidas' && (
-          recipeDetails.strAlcoholic
-        )}
-      </h2>
-      { isLinkCopied && (
-        <div>Link copiado!</div>
-      ) }
-      <h2>Ingredients</h2>
-      <ul
-        data-testid={ `${pathname.split('/')[2]}-ingredient-name-and-measure` }
-      >
-        {
-          ingredientsList.map((ingredient, index) => ingredient !== '  '
-          && ingredient !== ' null'
-          && (
-            <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-              { ingredient }
-            </li>
-          ))
-        }
-      </ul>
-      <h2>Instructions</h2>
-      <p data-testid="instructions">{ recipeDetails.strInstructions }</p>
-      { pathname.split('/')[1] === 'comidas'
-        && <iframe
-          src={ `https://www.youtube.com/embed/${recipeDetails.strYoutube.split('=')[1]}` }
-          title="recipe-video"
-          data-testid="video"
-        /> }
-      <div>
-        Recomendations
-        { recomendations.map((recomendation, index) => (
-          <div key={ index } data-testid={ `${index}-recomendation-card` }>
-            <img
-              data-testid="recipe-photo"
-              alt="details"
-              src={ pathname.split('/')[1] === 'bebidas'
-                ? recomendation.strMealThumb : recomendation.strDrinkThumb }
-            />
-            <h2 data-testid={ `${index}-recomendation-category` }>
-              Category:
-              { ` ${recomendation.strCategory}` }
-              <br />
-              { pathname.split('/')[1] === 'bebidas' && (
-                recomendation.strAlcoholic
-              )}
-            </h2>
-            <h1 data-testid={ `${index}-recomendation-title` }>
-              {
-                pathname.split('/')[1] === 'bebidas'
-                  ? recomendation.strMeal : recomendation.strDrink
-              }
-            </h1>
-          </div>
-        )) }
-      </div>
-      {/* <Link> */}
-      <button
-        type="button"
-        className="start-recipe"
-        data-testid="start-recipe-btn"
-      >
-        Iniciar Receita
-      </button>
-      {/* </Link> */}
-    </div>
+    <DetailsRendered
+      isRecipeDone={ isRecipeDone }
+      isRecipeInProgress={ isRecipeInProgress }
+      pathname={ pathname }
+      isFavorite={ isFavorite }
+      addToFavorites={ addToFavorites }
+      removeFromFavorites={ removeFromFavorites }
+    />
   );
 
   return (

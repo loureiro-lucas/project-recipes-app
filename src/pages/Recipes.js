@@ -34,7 +34,7 @@ function Recipes({ location: { pathname } }) {
     <>
       <Header
         pathname={ pathname }
-        pageTitle={ pathname === '/comidas' ? 'Comidas' : 'Bebidas' }
+        pageTitle={ pathname.includes('/comidas') ? 'Comidas' : 'Bebidas' }
         showSearchIcon
       />
       { !isSearchBarShown && (
@@ -43,7 +43,7 @@ function Recipes({ location: { pathname } }) {
       <div className="recipes-container">
         { recipes && recipes.map((recipe, index) => (
           <Link
-            to={ `${pathname}/${pathname === '/comidas'
+            to={ `${pathname}/${pathname.includes('/comidas')
               ? recipe.idMeal : recipe.idDrink}` }
             key={ index }
             className="recipe-card-container"
