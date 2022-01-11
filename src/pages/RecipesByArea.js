@@ -25,8 +25,6 @@ function RecipesByArea() {
       <Header pageTitle="Explorar Origem" showSearchIcon />
       <select
         data-testid="explore-by-area-dropdown"
-        name="explore-by-area-dropdown"
-        id="explore-by-area-dropdown"
       >
         <option
           data-testid="All-option"
