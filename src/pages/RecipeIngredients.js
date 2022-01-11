@@ -81,7 +81,7 @@ function RecipeIngredients({ location: { pathname } }) {
   return (
     <>
       <Header pageTitle="Explorar Ingredientes" showSearchIcon={ false } />
-      { pathname === '/explorar/comidas/ingredientes'
+      { pathname.includes('/explorar/comidas/ingredientes')
         ? exploreFoodsIngredients() : exploreDrinksIngredients() }
       <Footer />
     </>

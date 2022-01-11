@@ -6,7 +6,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function ExploreRecipes({ location: { pathname } }) {
-  const pageTitle = pathname === '/explorar/comidas'
+  const pageTitle = pathname.includes('/explorar/comidas')
     ? 'Explorar Comidas'
     : 'Explorar Bebidas';
 
@@ -95,7 +95,9 @@ function ExploreRecipes({ location: { pathname } }) {
   return (
     <>
       <Header pageTitle={ pageTitle } showSearchIcon={ false } />
-      { pathname === '/explorar/comidas' ? renderExploreFoods() : renderExploreDrinks()}
+      { pathname.includes('/explorar/comidas')
+        ? renderExploreFoods()
+        : renderExploreDrinks()}
       <Footer />
     </>
   );

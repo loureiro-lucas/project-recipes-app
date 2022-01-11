@@ -34,7 +34,7 @@ const Header = ({ pathname, showSearchIcon, pageTitle }) => {
         .then((response) => {
           if (response.length === 1) {
             history.push(
-              `${pathname}/${pathname === '/comidas'
+              `${pathname}/${pathname.includes('/comidas')
                 ? response[0].idMeal : response[0].idDrink}`,
             );
           }
